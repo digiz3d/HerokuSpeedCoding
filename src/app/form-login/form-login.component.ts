@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-form-login',
@@ -7,15 +8,26 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FormLoginComponent implements OnInit {
 
-  constructor() { }
+  formInput: { login: String, password: String } = { login: '', password: '' };
+
+  constructor(private http: HttpClient) { }
 
 
   ngOnInit() {
   }
 
   //Call by formLogin
-  onSubmit(){
-    
+  onSubmit() {
+    console.log(this.formInput);
+    this.http.post('/api/authenticate', { login: this.formInput.login, password: this.formInput.password })
+      //Promise
+      .subscribe(data => {
+        //console.log(data);
+        if(data['success'])
+        {
+          console.log('ok');
+        }
+      });
   }
 
 }

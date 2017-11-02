@@ -1,6 +1,7 @@
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
+var cookieParser = require('cookie-parser');
 var morgan = require('morgan');
 var mongoose = require('mongoose');
 
@@ -86,7 +87,7 @@ app.get('/setup', function (req, res) {
 var apiRoutes = express.Router();
 
 apiRoutes.get('/', function (req, res) {
-    res.json({ message: 'Welcome to HerokuSpeedCoding\'s API. Please authenticate using POST name and password at /api/authenticate'});
+    res.json({ message: 'Welcome to HerokuSpeedCoding\'s API. Please authenticate using POST name and password at /api/authenticate' });
 });
 
 apiRoutes.post('/authenticate', function (req, res) {
@@ -111,6 +112,15 @@ apiRoutes.post('/authenticate', function (req, res) {
                 var token = jwt.sign(payload, app.get('superSecret'), {
                     expiresIn: 1440 * 60
                 });
+
+                /*let options = {
+                    maxAge: 1000 * 60 * 15, // would expire after 15 minutes
+                    httpOnly: true, // The cookie only accessible by the web server
+                    signed: true // Indicates if the cookie should be signed
+                }*/
+                
+                // Set cookie
+                res.cookie('token', token/*, options*/) // options is optional
 
                 // return the information including token as JSON
                 res.json({
