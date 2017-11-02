@@ -21,3 +21,16 @@
   <input placeholder="message" type="text" name="message" [(ngModel)]="nouvelleTransaction.message" />
   <input type="submit" value="Save"/>
 </form>
+<h1>Statistiques</h1>
+
+
+<div style="display: block">
+  <canvas baseChart
+          [data]="pieChartData"
+          [labels]="pieChartLabels"
+          [chartType]="pieChartType"></canvas>
+</div>
+
+
+
+<script src="node_modules/chart.js/src/chart.js"></script>

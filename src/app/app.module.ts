@@ -3,6 +3,7 @@ import { FormsModule } from  '@angular/forms';
 import{ HttpClientModule }from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import{ RouterModule, Route }from '@angular/router';
+import { ChartsModule } from 'ng2-charts';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -10,6 +11,7 @@ import { AppComponent } from './app.component';
 import { FormLoginComponent } from './form-login/form-login.component';
 import { TransactionListComponent } from './transaction-list/transaction-list.component';
 import { ErrorPageComponent } from './error-page/error-page.component';
+
 
 @NgModule({
   declarations: [
@@ -22,7 +24,8 @@ import { ErrorPageComponent } from './error-page/error-page.component';
     BrowserModule,    
     FormsModule,
     HttpClientModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ChartsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
