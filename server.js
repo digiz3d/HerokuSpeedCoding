@@ -17,17 +17,19 @@ app.set('superSecret', config.secret);
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-
+app.use(cookieParser());
 app.use(morgan('dev'));
 
 
 app.get('/', function (req, res) {
     res.send('Hello! The API is at http://localhost:' + port + '/api');
 });
+
+/*
 app.get('/setup', function (req, res) {
     //Here values to mongodb collections
 
-    /*var nick = new User({
+    var nick = new User({
         name: 'bob',
         password: 'azerty'
     });
@@ -37,9 +39,8 @@ app.get('/setup', function (req, res) {
 
         console.log('User saved successfully');
         res.json({ success: true });
-    });*/
-
-    /*var transact = new Transaction({
+    });
+    var transact = new Transaction({
         value: 2000,
         message: "Paye octobre", 
         date: Date.now()
@@ -57,7 +58,7 @@ app.get('/setup', function (req, res) {
         date: Date.now()
     });
 
-    /*transact.save(function (err) {
+    transact.save(function (err) {
         if (err) throw err;
 
         console.log('Transaction saved successfully');
@@ -76,10 +77,10 @@ app.get('/setup', function (req, res) {
 
         console.log('Transaction saved successfully');
         res.json({ success: true });
-    });*/
+    });
 
 });
-
+//*/
 
 
 
@@ -134,7 +135,7 @@ apiRoutes.post('/authenticate', function (req, res) {
 });
 
 apiRoutes.use(function (req, res, next) {
-    var token = req.body.token || req.query.token || req.headers['x-access-token'];
+    var token = req.body.token || req.query.token || req.headers['x-access-token'] || req.cookies["token"];
 
     if (token) {
         jwt.verify(token, app.get('superSecret'), function (err, decoded) {
@@ -162,12 +163,24 @@ apiRoutes.get('/users', function (req, res) {
     });
 });
 
-apiRoutes.get('/transactions', function (req, res) {
-    Transactions.find({}, function (err, transactions) {
+apiRoutes.get('/transaction-list', function (req, res) {
+    Transaction.find({}, function (err, transactions) {
         res.json(transactions);
     });
 });
 
+apiRoutes.post('/transaction', function(req,res) {
+    let transaction = new Transaction({
+        value: req.body.value,
+        message: req.body.message,
+        date: Date.now()
+    });
+    transaction.save(function(err) {
+        if (err) throw err;
+        console.log("successfully added a new transaction");
+        res.json({success: true});
+    })
+});
 // apply the routes to our application with the prefix /api
 app.use('/api', apiRoutes);
 

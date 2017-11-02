@@ -1,0 +1,23 @@
+<h1>Liste des transactions</h1>
+<table>
+  <thead>
+    <tr>
+      <th>Value</th>
+      <th>Message</th>
+      <th>Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let transaction of transactions">
+      <td>{{ transaction.value }}</td>
+      <td>{{ transaction.message }}</td>
+      <td>{{ transaction.date | date:'d/M/yy'}}</td>
+    </tr>
+  </tbody>
+</table>
+<h1>Ajouter une transaction</h1>
+<form (ngSubmit)="onSubmit()">
+  <input placeholder="value" type="number" name="value" [(ngModel)]="nouvelleTransaction.value" />
+  <input placeholder="message" type="text" name="message" [(ngModel)]="nouvelleTransaction.message" />
+  <input type="submit" value="Save"/>
+</form>
