@@ -9,7 +9,13 @@ export class FormLoginComponent implements OnInit {
 
   constructor() { }
 
+
   ngOnInit() {
+  }
+
+  //Call by formLogin
+  onSubmit(){
+    
   }
 
 }
